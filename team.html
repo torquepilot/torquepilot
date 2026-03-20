@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>torquepilot · Team</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="three-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">torque<span>pilot</span></div>
+        <div class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="product.html">Product</a>
+            <a href="technology.html">Technology</a>
+            <a href="case-studies.html">Case Studies</a>
+            <a href="team.html">Team</a>
+            <a href="contact.html">Contact</a>
+            <a href="careers.html" class="btn-join">Join Us</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <main>
+        <section class="container" style="padding-top: 6rem;">
+            <h1 class="section-title">Meet the Team</h1>
+            <p class="section-sub">We are roboticists, AI researchers, and manufacturing veterans. Based in Palo Alto.</p>
+
+            <div class="grid-3" style="justify-items: center;">
+                <div class="card-3d" style="text-align: center;">
+                    <div style="width: 120px; height: 120px; background: #2d3b4f; border-radius: 50%; margin: 0 auto 1rem; border: 2px solid var(--primary-blue);"></div>
+                    <h3>Alex Chen</h3>
+                    <p>CEO & Co‑founder</p>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">ex‑Boston Dynamics, Stanford PhD</p>
+                </div>
+                <div class="card-3d" style="text-align: center;">
+                    <div style="width: 120px; height: 120px; background: #2d3b4f; border-radius: 50%; margin: 0 auto 1rem; border: 2px solid var(--primary-blue);"></div>
+                    <h3>Maria Garcia</h3>
+                    <p>CTO</p>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">ICRA Best Paper, ex‑Google Robotics</p>
+                </div>
+                <div class="card-3d" style="text-align: center;">
+                    <div style="width: 120px; height: 120px; background: #2d3b4f; border-radius: 50%; margin: 0 auto 1rem; border: 2px solid var(--primary-blue);"></div>
+                    <h3>James Wu</h3>
+                    <p>Head of Engineering</p>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">ex‑Tesla Automation, CMU Robotics</p>
+                </div>
+                <div class="card-3d" style="text-align: center;">
+                    <div style="width: 120px; height: 120px; background: #2d3b4f; border-radius: 50%; margin: 0 auto 1rem; border: 2px solid var(--primary-blue);"></div>
+                    <h3>Emily Park</h3>
+                    <p>VP of Product</p>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">ex‑Universal Robots, MIT</p>
+                </div>
+                <div class="card-3d" style="text-align: center;">
+                    <div style="width: 120px; height: 120px; background: #2d3b4f; border-radius: 50%; margin: 0 auto 1rem; border: 2px solid var(--primary-blue);"></div>
+                    <h3>Carlos Mendez</h3>
+                    <p>Head of AI</p>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">DeepMind alumnus, reinforcement learning</p>
+                </div>
+                <div class="card-3d" style="text-align: center;">
+                    <div style="width: 120px; height: 120px; background: #2d3b4f; border-radius: 50%; margin: 0 auto 1rem; border: 2px solid var(--primary-blue);"></div>
+                    <h3>Sarah Johnson</h3>
+                    <p>Head of Operations</p>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">ex‑Tesla Gigafactory, lean manufacturing</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 torquepilot, Inc. Palo Alto, CA.</p>
+            <p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p>
+        </div>
+    </footer>
+
+    <script type="importmap">
+        { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js" } }
+    </script>
+    <script type="module" src="three-common.js"></script>
+    <script>
+        document.querySelector('.mobile-toggle')?.addEventListener('click', () => alert('Mobile menu placeholder'));
+    </script>
+</body>
+</html>
