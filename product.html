@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>torquepilot · Product Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="three-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">torque<span>pilot</span></div>
+        <div class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="product.html">Product</a>
+            <a href="technology.html">Technology</a>
+            <a href="case-studies.html">Case Studies</a>
+            <a href="team.html">Team</a>
+            <a href="contact.html">Contact</a>
+            <a href="careers.html" class="btn-join">Join Us</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <main>
+        <section class="container" style="padding-top: 6rem;">
+            <h1 class="section-title">Product Platform</h1>
+            <p class="section-sub">A unified hardware and software stack for industrial robotics. Scalable, safe, and data‑driven.</p>
+
+            <div class="grid-3" style="margin-bottom: 4rem;">
+                <div class="card-3d">
+                    <i class="fas fa-microchip"></i>
+                    <h3>TorqueBot X1</h3>
+                    <p>6‑axis collaborative arm, payload 10kg, reach 1300mm. Built‑in force sensing and vision.</p>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>FleetOS</h3>
+                    <p>Cloud platform for data aggregation, model training, and OTA updates.</p>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Sim2Real Studio</h3>
+                    <p>Digital twin simulation for offline programming and validation.</p>
+                </div>
+            </div>
+
+            <div class="card-3d" style="padding: 2rem;">
+                <h2 style="margin-bottom: 1rem;">Technical Specifications</h2>
+                <table style="width:100%; border-collapse: collapse;">
+                    <tr><td style="padding:0.5rem;"><strong>Degrees of Freedom</strong></td><td>6 + 1 (gripper)</td></tr>
+                    <tr><td style="padding:0.5rem;"><strong>Payload</strong></td><td>10 kg</td></tr>
+                    <tr><td style="padding:0.5rem;"><strong>Repeatability</strong></td><td>±0.02 mm</td></tr>
+                    <tr><td style="padding:0.5rem;"><strong>Safety</strong></td><td>ISO 10218‑1, force‑limited</td></tr>
+                    <tr><td style="padding:0.5rem;"><strong>Connectivity</strong></td><td>5G, WiFi 6, Ethernet</td></tr>
+                </table>
+                <div style="margin-top: 2rem; text-align: center;">
+                    <a href="#" class="btn-primary">Request a demo</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 torquepilot, Inc. Palo Alto, CA.</p>
+            <p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p>
+        </div>
+    </footer>
+
+    <script type="importmap">
+        { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js" } }
+    </script>
+    <script type="module" src="three-common.js"></script>
+    <script>
+        document.querySelector('.mobile-toggle')?.addEventListener('click', function() {
+            alert('Mobile menu would open – implement if needed.');
+        });
+    </script>
+</body>
+</html>
