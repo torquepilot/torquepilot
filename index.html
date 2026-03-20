@@ -4,421 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>torquepilot · Physical AI for Manufacturing</title>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Inter + Orbitron for futuristic touch -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== GLOBAL STYLES ===== (will be moved to style.css) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        :root {
-            --bg-dark: #0a0c0e;
-            --bg-card: rgba(20, 25, 30, 0.7);
-            --primary-blue: #1e6df2;
-            --primary-glow: rgba(30, 109, 242, 0.5);
-            --text-light: #f0f4f8;
-            --text-dim: #b0b8c5;
-            --font-sans: 'Inter', sans-serif;
-            --font-display: 'Orbitron', sans-serif;
-        }
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 5;
-        }
-        section {
-            padding: 5rem 0;
-            position: relative;
-        }
-        /* ===== 3D BACKGROUND (canvas) ===== */
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-        /* ===== NAVBAR (glassmorphism) ===== */
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(10, 12, 14, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(30, 109, 242, 0.2);
-            padding: 0.75rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.02em;
-            text-shadow: 0 0 8px var(--primary-glow);
-        }
-        .logo span {
-            color: var(--primary-blue);
-        }
-        .nav-menu {
-            display: flex;
-            gap: 2.5rem;
-            font-weight: 500;
-        }
-        .nav-menu a {
-            position: relative;
-            padding: 0.25rem 0;
-        }
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-blue);
-            box-shadow: 0 0 10px var(--primary-blue);
-            transition: width 0.2s;
-        }
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
-        .btn-join {
-            background: var(--primary-blue);
-            color: white !important;
-            padding: 0.5rem 1.25rem !important;
-            border-radius: 40px;
-            font-weight: 600;
-            border: none;
-            box-shadow: 0 0 15px var(--primary-glow);
-            transition: 0.2s;
-        }
-        .btn-join:hover {
-            background: #2a7aff;
-            transform: scale(1.02);
-            box-shadow: 0 0 25px var(--primary-blue);
-        }
-        .btn-join::after {
-            display: none !important;
-        }
-        .mobile-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .nav-menu { display: none; }
-            .mobile-toggle { display: block; }
-        }
-        /* ===== HERO SECTION (with 3D model area) ===== */
         .hero {
             min-height: 90vh;
             display: flex;
             align-items: center;
             position: relative;
         }
-        .hero-content {
-            max-width: 600px;
-            position: relative;
-            z-index: 10;
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 70% 30%, rgba(30,109,242,0.15), transparent 60%),
+                        url('https://m.pngsucai.com/uploadfile/png/2024/03/15/1512378.png') center/cover no-repeat;
+            opacity: 0.3;
         }
-        .hero h1 {
-            font-size: clamp(2.8rem, 8vw, 4.8rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 20px rgba(30,109,242,0.3);
-        }
-        .hero .highlight {
-            color: var(--primary-blue);
-            text-shadow: 0 0 20px var(--primary-blue);
-        }
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-dim);
-            margin-bottom: 2.5rem;
-        }
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-            padding: 0.9rem 2.2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            border: none;
-            box-shadow: 0 0 15px var(--primary-glow);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: 0.2s;
-        }
-        .btn-primary:hover {
-            background: #2a7aff;
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px var(--primary-blue);
-        }
-        .btn-outline {
-            border: 1px solid rgba(255,255,255,0.3);
-            background: transparent;
-            padding: 0.9rem 2.2rem;
-            border-radius: 40px;
-            font-weight: 500;
-            backdrop-filter: blur(5px);
-            transition: 0.2s;
-        }
-        .btn-outline:hover {
-            border-color: var(--primary-blue);
-            background: rgba(30,109,242,0.1);
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-        /* ===== 3D CARD STYLES ===== */
-        .card-3d {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 2rem 1.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(30,109,242,0.2);
-            transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
-            transition: transform 0.3s ease, box-shadow 0.3s;
-        }
-        .card-3d:hover {
-            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateZ(10px);
-            box-shadow: 0 40px 60px -20px var(--primary-blue), 0 0 0 2px var(--primary-blue);
-        }
-        .card-3d i {
-            font-size: 2.2rem;
-            color: var(--primary-blue);
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 8px var(--primary-blue));
-        }
-        /* ===== TRUST BAR ===== */
-        .trust-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(30,109,242,0.3);
-            border-bottom: 1px solid rgba(30,109,242,0.3);
-        }
-        .trust-item {
-            color: var(--text-dim);
-            font-size: 1.2rem;
-            font-weight: 500;
-            opacity: 0.7;
-            transition: 0.2s;
-            text-shadow: 0 0 5px var(--primary-glow);
-        }
-        .trust-item:hover {
-            opacity: 1;
-            color: white;
-        }
-        /* ===== SECTION TITLES ===== */
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-            font-family: var(--font-display);
-            text-shadow: 0 0 10px var(--primary-blue);
-        }
-        .section-sub {
-            color: var(--text-dim);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-bottom: 3rem;
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        /* ===== DATA LOOP ===== */
-        .data-loop {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-            flex-wrap: wrap;
-        }
-        .loop-graphic {
-            flex: 1;
-            min-width: 280px;
-            aspect-ratio: 1/1;
-            background: conic-gradient(from 0deg, var(--primary-blue) 0deg 120deg, #2d3b4f 120deg 240deg, var(--primary-blue) 240deg 360deg);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: black;
-            position: relative;
-            border: 4px solid var(--primary-blue);
-            box-shadow: 0 0 50px var(--primary-glow);
-        }
-        .loop-graphic::after {
-            content: 'Data Loop';
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            padding: 0.5rem 1.5rem;
-            border-radius: 40px;
-            font-size: 1.2rem;
-            color: var(--primary-blue);
-            border: 1px solid var(--primary-blue);
-        }
-        .loop-text .stat {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            line-height: 1.2;
-            text-shadow: 0 0 15px var(--primary-blue);
-        }
-        /* ===== CASE CARDS ===== */
-        .cases-scroll {
-            display: flex;
-            gap: 2rem;
-            overflow-x: auto;
-            padding: 1rem 0 2rem;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-blue) transparent;
-        }
-        .case-card {
-            min-width: 300px;
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 30px 40px -20px black;
-            transform-style: preserve-3d;
-            transform: perspective(800px) rotateY(2deg);
-            transition: 0.3s;
-        }
-        .case-card:hover {
-            transform: perspective(800px) rotateY(5deg) translateZ(15px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 30px 50px -20px var(--primary-blue);
-        }
-        /* ===== TEAM ===== */
-        .team-member {
-            text-align: center;
-            max-width: 200px;
-            transform-style: preserve-3d;
-            transform: perspective(500px) rotateX(1deg);
-            transition: 0.3s;
-        }
-        .team-member:hover {
-            transform: perspective(500px) rotateX(3deg) translateZ(10px);
-        }
-        .team-member .avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: #2d3b4f;
-            margin: 0 auto 1rem;
-            border: 3px solid var(--primary-blue);
-            box-shadow: 0 0 30px var(--primary-glow);
-        }
-        /* ===== CONTACT ===== */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
-            padding: 3rem;
-            border: 1px solid rgba(30,109,242,0.3);
-            box-shadow: 0 30px 50px -30px black;
-            transform: perspective(1500px) rotateX(1deg);
-        }
-        .contact-info i {
-            color: var(--primary-blue);
-            width: 30px;
-            font-size: 1.3rem;
-            filter: drop-shadow(0 0 5px var(--primary-blue));
-        }
-        .work-hours {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(30,109,242,0.3);
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(30,109,242,0.3);
-            border-radius: 20px;
-            font-family: inherit;
-            color: inherit;
-            margin-bottom: 1rem;
-            backdrop-filter: blur(5px);
-        }
-        .contact-form button {
-            background: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 0 15px var(--primary-glow);
-            transition: 0.2s;
-        }
-        .contact-form button:hover {
-            background: #2a7aff;
-            box-shadow: 0 0 30px var(--primary-blue);
-        }
-        /* ===== FOOTER ===== */
-        .footer {
-            padding: 2rem 0;
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.95rem;
-            border-top: 1px solid rgba(30,109,242,0.3);
-        }
-        .footer a {
-            color: var(--primary-blue);
-        }
-        /* ===== UTILITIES ===== */
-        .text-blue { color: var(--primary-blue); }
-        .mt-4 { margin-top: 2rem; }
     </style>
 </head>
 <body>
-    <!-- Three.js canvas (background and robot model) -->
     <canvas id="three-canvas"></canvas>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">torque<span>pilot</span></div>
         <div class="nav-menu">
@@ -433,21 +41,20 @@
         <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="container hero-content">
-            <h1>Physical AI for <span class="highlight">Real-World</span> Manufacturing</h1>
-            <p>Scalable robotic systems that learn from production data and collaborate safely with humans.</p>
-            <div class="btn-group">
+        <div class="hero-bg"></div>
+        <div class="container hero-content" style="max-width: 600px; position: relative; z-index: 10;">
+            <h1 style="font-size: clamp(2.8rem, 8vw, 4.8rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem;">Physical AI for <span style="color: var(--primary-blue);">Real-World</span> Manufacturing</h1>
+            <p style="font-size: 1.25rem; color: var(--text-dim); margin-bottom: 2.5rem;">Scalable robotic systems that learn from production data and collaborate safely with humans.</p>
+            <div class="btn-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
                 <a href="technology.html" class="btn-primary"><i class="fas fa-play"></i> Watch technology</a>
                 <a href="contact.html" class="btn-outline">Contact our team</a>
             </div>
         </div>
     </section>
 
-    <!-- Trust Bar -->
     <div class="container">
-        <div class="trust-bar">
+        <div class="trust-bar" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; padding: 2rem 0; border-top: 1px solid rgba(30,109,242,0.3); border-bottom: 1px solid rgba(30,109,242,0.3);">
             <span class="trust-item">BMW Group</span>
             <span class="trust-item">Tesla</span>
             <span class="trust-item">Volkswagen</span>
@@ -456,18 +63,16 @@
         </div>
     </div>
 
-    <!-- About -->
     <section>
         <div class="container">
             <h2 class="section-title">Headquartered in Palo Alto, CA</h2>
             <p class="section-sub">We bridge Physical AI and industrial automation. Our robots continuously improve on real production lines.</p>
             <div class="card-3d" style="padding: 2rem;">
-                <img src="https://placehold.co/1200x400/1e293b/9ca3af?text=Team+on+factory+floor" style="width:100%; border-radius:24px;" alt="Team">
+                <img src="https://m.pngsucai.com/uploadfile/png/2024/02/10/1010600.png" style="width:100%; border-radius:24px;" alt="Factory automation">
             </div>
         </div>
     </section>
 
-    <!-- Core Technology (3D cards) -->
     <section>
         <div class="container">
             <h2 class="section-title">Physical AI <span class="text-blue">Core</span></h2>
@@ -495,31 +100,21 @@
         </div>
     </section>
 
-    <!-- Product Preview -->
     <section>
         <div class="container">
             <h2 class="section-title">Product Platform</h2>
             <div style="display: flex; gap: 3rem; flex-wrap: wrap; align-items: center;">
                 <div style="flex:1; min-width:280px;">
                     <div class="card-3d" style="padding:0;">
-                        <img src="https://placehold.co/600x400/1e293b/9ca3af?text=Robot+arm" style="width:100%; border-radius:28px;" alt="Robot">
+                        <img src="https://www.pngsucai.com/uploadfile/png/2024/07/15/4838155.png" style="width:100%; border-radius:28px;" alt="Robot arm">
                     </div>
                 </div>
                 <div style="flex:1;">
                     <h3 style="font-size:2rem;">Deployment in three steps</h3>
                     <ul style="list-style:none; margin-top:2rem;">
-                        <li style="margin-bottom:1.5rem; display:flex; gap:1rem;">
-                            <span style="background:var(--primary-blue); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; box-shadow:0 0 15px var(--primary-blue);">1</span>
-                            <div><strong>Plug into line</strong> — 1‑hour setup</div>
-                        </li>
-                        <li style="margin-bottom:1.5rem; display:flex; gap:1rem;">
-                            <span style="background:var(--primary-blue); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; box-shadow:0 0 15px var(--primary-blue);">2</span>
-                            <div><strong>Collect data</strong> — real‑time streaming</div>
-                        </li>
-                        <li style="margin-bottom:1.5rem; display:flex; gap:1rem;">
-                            <span style="background:var(--primary-blue); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; box-shadow:0 0 15px var(--primary-blue);">3</span>
-                            <div><strong>Optimize & update</strong> — fleet learns</div>
-                        </li>
+                        <li style="margin-bottom:1.5rem; display:flex; gap:1rem;"><span style="background:var(--primary-blue); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;">1</span><div><strong>Plug into line</strong> — 1‑hour setup</div></li>
+                        <li style="margin-bottom:1.5rem; display:flex; gap:1rem;"><span style="background:var(--primary-blue); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;">2</span><div><strong>Collect data</strong> — real‑time streaming</div></li>
+                        <li style="margin-bottom:1.5rem; display:flex; gap:1rem;"><span style="background:var(--primary-blue); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;">3</span><div><strong>Optimize & update</strong> — fleet learns</div></li>
                     </ul>
                     <a href="product.html" class="btn-primary">Explore specs →</a>
                 </div>
@@ -527,231 +122,100 @@
         </div>
     </section>
 
-    <!-- Case Studies Preview -->
     <section>
         <div class="container">
             <h2 class="section-title">Case studies</h2>
             <p class="section-sub">Automotive and beyond</p>
-            <div class="cases-scroll">
-                <div class="case-card">
-                    <img src="https://placehold.co/400x200/2d3b4f/9ca3af?text=Body+Assembly" style="width:100%; border-radius:16px;">
+            <div class="cases-scroll" style="display: flex; gap: 2rem; overflow-x: auto;">
+                <div class="case-card" style="min-width:300px; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:28px; padding:1.5rem;">
+                    <img src="https://m.pngsucai.com/uploadfile/png/2024/02/10/1010600.png" style="width:100%; border-radius:16px;">
                     <div class="case-tag">Automotive · Assembly</div>
                     <h3>Precision part fitting</h3>
                     <p>Defect rate ↓27%</p>
                 </div>
-                <!-- repeat other cases -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Data Loop -->
-    <section>
-        <div class="container data-loop">
-            <div class="loop-graphic"></div>
-            <div class="loop-text">
-                <h2 class="section-title">Data‑closed‑loop evolution</h2>
-                <p style="color:var(--text-dim);">Every robot learns for the whole fleet.</p>
-                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                    <div><span class="stat" id="counter1">2.4M</span><p>Real‑line hours</p></div>
-                    <div><span class="stat" id="counter2">18.2B</span><p>Total grasps</p></div>
-                    <div><span class="stat">v3.6</span><p>Bi‑weekly updates</p></div>
+                <div class="case-card" style="min-width:300px; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:28px; padding:1.5rem;">
+                    <img src="https://www.pngsucai.com/uploadfile/png/2024/09/20/3188595.png" style="width:100%; border-radius:16px;">
+                    <div class="case-tag">Quality · Inspection</div>
+                    <h3>AI visual inspection</h3>
+                    <p>99.5% accuracy</p>
+                </div>
+                <div class="case-card" style="min-width:300px; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:28px; padding:1.5rem;">
+                    <img src="https://m.pngsucai.com/uploadfile/png/2024/12/01/1459911.png" style="width:100%; border-radius:16px;">
+                    <div class="case-tag">Logistics · Handling</div>
+                    <h3>Material handling</h3>
+                    <p>Labor cost ↓40%</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Preview -->
+    <section>
+        <div class="container data-loop" style="display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;">
+            <div class="loop-graphic" style="flex:1; min-width:280px; aspect-ratio:1/1; background: conic-gradient(from 0deg, var(--primary-blue) 0deg 120deg, #2d3b4f 120deg 240deg, var(--primary-blue) 240deg 360deg); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid var(--primary-blue); box-shadow: 0 0 50px var(--primary-glow);"><div style="background:rgba(0,0,0,0.7); backdrop-filter:blur(5px); padding:0.5rem 1.5rem; border-radius:40px;">Data Loop</div></div>
+            <div class="loop-text" style="flex:1;">
+                <h2 class="section-title">Data‑closed‑loop evolution</h2>
+                <p style="color:var(--text-dim);">Every robot learns for the whole fleet.</p>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div><span class="stat" id="counter1" style="font-size:3rem; font-weight:700; color:var(--primary-blue);">2.4M</span><p>Real‑line hours</p></div>
+                    <div><span class="stat" id="counter2" style="font-size:3rem; font-weight:700; color:var(--primary-blue);">18.2B</span><p>Total grasps</p></div>
+                    <div><span class="stat" style="font-size:3rem; font-weight:700; color:var(--primary-blue);">v3.6</span><p>Bi‑weekly updates</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section>
         <div class="container">
             <h2 class="section-title">Meet the team</h2>
             <div class="grid-3" style="justify-items:center;">
-                <div class="team-member">
-                    <div class="avatar" style="background:url('https://placehold.co/140x140/1e293b/9ca3af?text=CEO') center/cover;"></div>
+                <div class="team-member" style="text-align:center;">
+                    <div style="width:140px; height:140px; border-radius:50%; background:#2d3b4f; margin:0 auto 1rem; border:3px solid var(--primary-blue); background-image:url('https://www.pngsucai.com/uploadfile/png/2024/05/18/895248.png'); background-size:cover;"></div>
                     <h4>Alex Chen</h4>
                     <p>CEO, ex‑Boston Dynamics</p>
                 </div>
-                <!-- others -->
+                <div class="team-member" style="text-align:center;">
+                    <div style="width:140px; height:140px; border-radius:50%; background:#2d3b4f; margin:0 auto 1rem; border:3px solid var(--primary-blue); background-image:url('https://illustration-free.net/wp-content/uploads/2025/08/free_illustration_human_icon_3-1024x1024.png'); background-size:cover;"></div>
+                    <h4>Maria Garcia</h4>
+                    <p>CTO, ICRA Best Paper</p>
+                </div>
+                <div class="team-member" style="text-align:center;">
+                    <div style="width:140px; height:140px; border-radius:50%; background:#2d3b4f; margin:0 auto 1rem; border:3px solid var(--primary-blue); background-image:url('https://www.mksucai.com/uploadfile/png/2024/08/10/qwgnwzgv.png'); background-size:cover;"></div>
+                    <h4>James Wu</h4>
+                    <p>Head of Engineering, ex‑Tesla</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Preview -->
     <section>
         <div class="container">
-            <div class="contact-grid">
+            <div class="contact-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:40px; padding:3rem;">
                 <div class="contact-info">
-                    <h3 style="font-size:2rem;">Get in touch</h3>
                     <p><i class="fas fa-envelope"></i> <a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a></p>
                     <p><i class="fas fa-headset"></i> <a href="mailto:support@torquepilot.xyz">support@torquepilot.xyz</a></p>
-                    <p><i class="fas fa-map-pin"></i> Palo Alto, CA</p>
-                    <div class="work-hours">
-                        <p><i class="far fa-clock"></i> Mon–Fri, 9:00–18:00 PT</p>
-                    </div>
+                    <div class="work-hours"><p><i class="far fa-clock"></i> Mon–Fri, 9:00–18:00 PT</p></div>
                 </div>
                 <div class="contact-form">
-                    <h3 style="font-size:2rem;">Message</h3>
-                    <form action="#">
-                        <input type="text" placeholder="Name">
-                        <input type="email" placeholder="Email">
-                        <textarea rows="4" placeholder="How can we help?"></textarea>
-                        <button type="submit">Send</button>
-                    </form>
+                    <form action="#"><input type="text" placeholder="Name"><input type="email" placeholder="Email"><textarea rows="4" placeholder="Message"></textarea><button type="submit">Send</button></form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p>© 2026 torquepilot, Inc. Palo Alto, CA.</p>
-            <p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p>
-        </div>
+        <div class="container"><p>© 2026 torquepilot, Inc. Palo Alto, CA.</p><p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p></div>
     </footer>
 
-    <!-- Three.js library -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
-            }
-        }
-    </script>
-    <script type="module">
-        // Simple Three.js scene with abstract robot and floating particles
-        import * as THREE from 'three';
-        import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
-
-        // Setup scene
-        const canvas = document.getElementById('three-canvas');
-        const scene = new THREE.Scene();
-        scene.background = null; // transparent
-
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(5, 3, 10);
-        camera.lookAt(0, 1, 0);
-
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0x404060);
-        scene.add(ambientLight);
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-        dirLight.position.set(1, 2, 1);
-        scene.add(dirLight);
-        const pointLight = new THREE.PointLight(0x1e6df2, 1, 20);
-        pointLight.position.set(2, 3, 4);
-        scene.add(pointLight);
-
-        // Add a simple abstract robot (geometric shapes)
-        const robotGroup = new THREE.Group();
-
-        // Body
-        const bodyGeo = new THREE.BoxGeometry(1.5, 2, 1);
-        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x2a3f5e, emissive: 0x1e6df2, emissiveIntensity: 0.2 });
-        const body = new THREE.Mesh(bodyGeo, bodyMat);
-        body.position.y = 1;
-        robotGroup.add(body);
-
-        // Head
-        const headGeo = new THREE.SphereGeometry(0.6, 32, 32);
-        const headMat = new THREE.MeshStandardMaterial({ color: 0x4a6fa5, emissive: 0x1e6df2, emissiveIntensity: 0.3 });
-        const head = new THREE.Mesh(headGeo, headMat);
-        head.position.y = 2.3;
-        robotGroup.add(head);
-
-        // Eyes
-        const eyeGeo = new THREE.SphereGeometry(0.15, 16);
-        const eyeMat = new THREE.MeshStandardMaterial({ color: 0x00ffff, emissive: 0x00ffff });
-        const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-        eyeL.position.set(-0.3, 2.4, 0.5);
-        robotGroup.add(eyeL);
-        const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
-        eyeR.position.set(0.3, 2.4, 0.5);
-        robotGroup.add(eyeR);
-
-        // Arms
-        const armGeo = new THREE.CylinderGeometry(0.2, 0.2, 1.5);
-        const armMat = new THREE.MeshStandardMaterial({ color: 0x3a5f8a });
-        const armL = new THREE.Mesh(armGeo, armMat);
-        armL.position.set(-1.2, 1.8, 0);
-        armL.rotation.z = 0.3;
-        robotGroup.add(armL);
-        const armR = new THREE.Mesh(armGeo, armMat);
-        armR.position.set(1.2, 1.8, 0);
-        armR.rotation.z = -0.3;
-        robotGroup.add(armR);
-
-        // Base
-        const baseGeo = new THREE.CylinderGeometry(1, 1, 0.3, 8);
-        const baseMat = new THREE.MeshStandardMaterial({ color: 0x1e3a5f });
-        const base = new THREE.Mesh(baseGeo, baseMat);
-        base.position.y = -0.2;
-        robotGroup.add(base);
-
-        robotGroup.position.set(2, 1, 0); // position to the right of hero text
-        scene.add(robotGroup);
-
-        // Floating particles background
-        const particleGeo = new THREE.BufferGeometry();
-        const particleCount = 600;
-        const positions = new Float32Array(particleCount * 3);
-        for (let i = 0; i < particleCount * 3; i += 3) {
-            positions[i] = (Math.random() - 0.5) * 30;
-            positions[i+1] = (Math.random() - 0.5) * 20;
-            positions[i+2] = (Math.random() - 0.5) * 30;
-        }
-        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const particleMat = new THREE.PointsMaterial({ color: 0x1e6df2, size: 0.05, transparent: true, opacity: 0.4 });
-        const particles = new THREE.Points(particleGeo, particleMat);
-        scene.add(particles);
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            robotGroup.rotation.y += 0.002;
-            particles.rotation.y += 0.0002;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Resize handler
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Optional: mouse interaction (rotate robot slightly)
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            const mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-            robotGroup.rotation.y += (mouseX * 0.5 - robotGroup.rotation.y) * 0.01;
-            robotGroup.rotation.x += (mouseY * 0.2 - robotGroup.rotation.x) * 0.01;
-        });
-    </script>
-
-    <!-- Counter animation -->
+    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js" } }</script>
+    <script type="module" src="three-common.js"></script>
     <script>
         function animateNumber(id, start, end, suffix) {
             let current = start;
             const step = Math.ceil((end - start) / 60);
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= end) {
-                    document.getElementById(id).innerText = end.toLocaleString() + suffix;
-                    clearInterval(timer);
-                } else {
-                    document.getElementById(id).innerText = current.toLocaleString() + suffix;
-                }
-            }, 16);
+            const timer = setInterval(() => { current += step; if (current >= end) { document.getElementById(id).innerText = end.toLocaleString() + suffix; clearInterval(timer); } else { document.getElementById(id).innerText = current.toLocaleString() + suffix; } }, 16);
         }
-        window.onload = () => {
-            animateNumber('counter1', 1800000, 2400000, ' hrs');
-            animateNumber('counter2', 15000000000, 18200000000, '');
-        };
+        window.onload = () => { animateNumber('counter1', 1800000, 2400000, ' hrs'); animateNumber('counter2', 15000000000, 18200000000, ''); };
+        document.querySelector('.mobile-toggle')?.addEventListener('click', () => alert('Mobile menu placeholder'));
     </script>
 </body>
 </html>
