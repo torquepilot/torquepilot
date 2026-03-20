@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>torquepilot · Careers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="three-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">torque<span>pilot</span></div>
+        <div class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="product.html">Product</a>
+            <a href="technology.html">Technology</a>
+            <a href="case-studies.html">Case Studies</a>
+            <a href="team.html">Team</a>
+            <a href="contact.html">Contact</a>
+            <a href="careers.html" class="btn-join">Join Us</a>
+        </div>
+        <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <main>
+        <section class="container" style="padding-top: 6rem;">
+            <h1 class="section-title">Join the team</h1>
+            <p class="section-sub">Help us build the future of industrial robotics. We’re hiring across engineering, AI, and operations.</p>
+
+            <div class="grid-3" style="margin-bottom: 4rem;">
+                <div class="card-3d">
+                    <i class="fas fa-robot"></i>
+                    <h3>Robotics Software Engineer</h3>
+                    <p>Develop motion planning and control stacks. Experience with ROS2, C++, and real‑time systems.</p>
+                    <a href="#" class="btn-outline" style="margin-top:1rem; display:inline-block;">Apply now</a>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-brain"></i>
+                    <h3>Machine Learning Engineer</h3>
+                    <p>Build models for perception, imitation learning, and fleet optimization. PyTorch, TensorFlow, cloud infra.</p>
+                    <a href="#" class="btn-outline" style="margin-top:1rem; display:inline-block;">Apply now</a>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Field Application Engineer</h3>
+                    <p>Deploy robots on customer sites, integrate with factory lines, and support operations. Travel required.</p>
+                    <a href="#" class="btn-outline" style="margin-top:1rem; display:inline-block;">Apply now</a>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Product Manager – Robotics</h3>
+                    <p>Define roadmap, gather customer feedback, and drive product strategy. Technical background required.</p>
+                    <a href="#" class="btn-outline" style="margin-top:1rem; display:inline-block;">Apply now</a>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-users"></i>
+                    <h3>Hardware Engineer</h3>
+                    <p>Design and test robotic systems, from actuators to sensor integration. CAD, electronics, prototyping.</p>
+                    <a href="#" class="btn-outline" style="margin-top:1rem; display:inline-block;">Apply now</a>
+                </div>
+                <div class="card-3d">
+                    <i class="fas fa-chart-simple"></i>
+                    <h3>Sales & Business Development</h3>
+                    <p>Grow our footprint in automotive and industrial manufacturing. Experience in capital equipment sales.</p>
+                    <a href="#" class="btn-outline" style="margin-top:1rem; display:inline-block;">Apply now</a>
+                </div>
+            </div>
+
+            <div class="card-3d" style="text-align: center;">
+                <h2>Why torquepilot?</h2>
+                <p style="margin: 1rem 0;">Work at the intersection of AI and physical systems. See your code run on real robots in real factories. Competitive compensation, equity, and a culture of innovation.</p>
+                <p><i class="fas fa-map-marker-alt"></i> Palo Alto, CA | <i class="fas fa-globe"></i> Remote‑friendly for some roles</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 torquepilot, Inc. Palo Alto, CA.</p>
+            <p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p>
+        </div>
+    </footer>
+
+    <script type="importmap">
+        { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js" } }
+    </script>
+    <script type="module" src="three-common.js"></script>
+    <script>
+        document.querySelector('.mobile-toggle')?.addEventListener('click', () => alert('Mobile menu placeholder'));
+    </script>
+</body>
+</html>
