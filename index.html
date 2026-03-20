@@ -18,9 +18,123 @@
             position: absolute;
             inset: 0;
             z-index: -1;
-            background: radial-gradient(circle at 70% 30%, rgba(30,109,242,0.15), transparent 60%),
-                        url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1600') center/cover no-repeat;
-            opacity: 0.3;
+            background: radial-gradient(circle at 70% 30%, rgba(30,109,242,0.15), transparent 60%);
+            /* 无外部图片，纯渐变背景 */
+        }
+        .cases-scroll {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-blue) transparent;
+        }
+        .cases-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .cases-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 20px;
+        }
+        .case-card {
+            min-width: 300px;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s;
+        }
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+        }
+        .case-tag {
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .team-member {
+            text-align: center;
+        }
+        .team-member .avatar-icon {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #1e6df2, #2d3b4f);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 3rem;
+            border: 1px solid rgba(30,109,242,0.3);
+        }
+        .contact-info i {
+            color: var(--primary-blue);
+            width: 30px;
+            font-size: 1.3rem;
+        }
+        .contact-info p {
+            margin: 1.2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .work-hours {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(30,109,242,0.3);
+        }
+        @media (max-width: 700px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .data-loop {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        .loop-graphic {
+            flex: 1;
+            min-width: 280px;
+            aspect-ratio: 1/1;
+            background: conic-gradient(from 0deg, var(--primary-blue) 0deg 120deg, #2d3b4f 120deg 240deg, var(--primary-blue) 240deg 360deg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--primary-blue);
+            box-shadow: 0 0 50px var(--primary-glow);
+        }
+        .loop-graphic div {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+        .stat {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            text-shadow: 0 0 15px var(--primary-blue);
         }
     </style>
 </head>
@@ -68,7 +182,9 @@
             <h2 class="section-title">Headquartered in Palo Alto, CA</h2>
             <p class="section-sub">We bridge Physical AI and industrial automation. Our robots continuously improve on real production lines.</p>
             <div class="card-3d" style="padding: 2rem;">
-                <img src="https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1200" style="width:100%; border-radius:24px;" alt="Factory automation">
+                <div style="width:100%; height: 300px; background: linear-gradient(135deg, #1e6df2, #2d3b4f); border-radius:24px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-industry fa-5x" style="color: white; opacity: 0.8;"></i>
+                </div>
             </div>
         </div>
     </section>
@@ -106,7 +222,9 @@
             <div style="display: flex; gap: 3rem; flex-wrap: wrap; align-items: center;">
                 <div style="flex:1; min-width:280px;">
                     <div class="card-3d" style="padding:0;">
-                        <img src="https://images.pexels.com/photos/4421527/pexels-photo-4421527.jpeg?auto=compress&cs=tinysrgb&w=800" style="width:100%; border-radius:28px;" alt="Robot arm">
+                        <div style="width:100%; height: 300px; background: linear-gradient(135deg, #1e6df2, #2d3b4f); border-radius:28px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-cogs fa-5x" style="color: white; opacity: 0.8;"></i>
+                        </div>
                     </div>
                 </div>
                 <div style="flex:1;">
@@ -126,21 +244,30 @@
         <div class="container">
             <h2 class="section-title">Case studies</h2>
             <p class="section-sub">Automotive and beyond</p>
-            <div class="cases-scroll" style="display: flex; gap: 2rem; overflow-x: auto;">
-                <div class="case-card" style="min-width:300px; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:28px; padding:1.5rem;">
-                    <img src="https://images.unsplash.com/photo-1581092335871-4e2c4e5b3e5a?w=800" style="width:100%; border-radius:16px;">
+            <div class="cases-scroll">
+                <!-- Automotive Assembly 卡片 -->
+                <div class="case-card">
+                    <div style="width: 100%; height: 160px; background: linear-gradient(135deg, #1e6df2, #2d3b4f); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <i class="fas fa-car fa-3x" style="color: white; opacity: 0.8;"></i>
+                    </div>
                     <div class="case-tag">Automotive · Assembly</div>
-                    <h3>Precision part fitting</h3>
+                    <h3 style="margin: 0.5rem 0;">Precision part fitting</h3>
                     <p>Defect rate ↓27%</p>
                 </div>
-                <div class="case-card" style="min-width:300px; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:28px; padding:1.5rem;">
-                    <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800" style="width:100%; border-radius:16px;">
+                <!-- Quality Inspection 卡片 -->
+                <div class="case-card">
+                    <div style="width: 100%; height: 160px; background: linear-gradient(135deg, #1e6df2, #2d3b4f); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <i class="fas fa-search fa-3x" style="color: white; opacity: 0.8;"></i>
+                    </div>
                     <div class="case-tag">Quality · Inspection</div>
                     <h3>AI visual inspection</h3>
                     <p>99.5% accuracy</p>
                 </div>
-                <div class="case-card" style="min-width:300px; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:28px; padding:1.5rem;">
-                    <img src="https://images.unsplash.com/photo-1581092162384-8987c9e6d6c1?w=800" style="width:100%; border-radius:16px;">
+                <!-- Logistics Handling 卡片 -->
+                <div class="case-card">
+                    <div style="width: 100%; height: 160px; background: linear-gradient(135deg, #1e6df2, #2d3b4f); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <i class="fas fa-boxes fa-3x" style="color: white; opacity: 0.8;"></i>
+                    </div>
                     <div class="case-tag">Logistics · Handling</div>
                     <h3>Material handling</h3>
                     <p>Labor cost ↓40%</p>
@@ -150,15 +277,17 @@
     </section>
 
     <section>
-        <div class="container data-loop" style="display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;">
-            <div class="loop-graphic" style="flex:1; min-width:280px; aspect-ratio:1/1; background: conic-gradient(from 0deg, var(--primary-blue) 0deg 120deg, #2d3b4f 120deg 240deg, var(--primary-blue) 240deg 360deg); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid var(--primary-blue); box-shadow: 0 0 50px var(--primary-glow);"><div style="background:rgba(0,0,0,0.7); backdrop-filter:blur(5px); padding:0.5rem 1.5rem; border-radius:40px;">Data Loop</div></div>
-            <div class="loop-text" style="flex:1;">
+        <div class="container data-loop">
+            <div class="loop-graphic">
+                <div>Data Loop</div>
+            </div>
+            <div class="loop-text">
                 <h2 class="section-title">Data‑closed‑loop evolution</h2>
                 <p style="color:var(--text-dim);">Every robot learns for the whole fleet.</p>
                 <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                    <div><span class="stat" id="counter1" style="font-size:3rem; font-weight:700; color:var(--primary-blue);">2.4M</span><p>Real‑line hours</p></div>
-                    <div><span class="stat" id="counter2" style="font-size:3rem; font-weight:700; color:var(--primary-blue);">18.2B</span><p>Total grasps</p></div>
-                    <div><span class="stat" style="font-size:3rem; font-weight:700; color:var(--primary-blue);">v3.6</span><p>Bi‑weekly updates</p></div>
+                    <div><span class="stat" id="counter1">2.4M</span><p>Real‑line hours</p></div>
+                    <div><span class="stat" id="counter2">18.2B</span><p>Total grasps</p></div>
+                    <div><span class="stat">v3.6</span><p>Bi‑weekly updates</p></div>
                 </div>
             </div>
         </div>
@@ -168,18 +297,18 @@
         <div class="container">
             <h2 class="section-title">Meet the team</h2>
             <div class="grid-3" style="justify-items:center;">
-                <div class="team-member" style="text-align:center;">
-                    <div style="width:140px; height:140px; border-radius:50%; background: #2d3b4f; margin:0 auto 1rem; border:3px solid var(--primary-blue); display:flex; align-items:center; justify-content:center;"><i class="fas fa-user-tie fa-4x" style="color: var(--primary-blue);"></i></div>
+                <div class="team-member">
+                    <div class="avatar-icon"><i class="fas fa-user-tie fa-4x" style="color: white;"></i></div>
                     <h4>Alex Chen</h4>
                     <p>CEO, ex‑Boston Dynamics</p>
                 </div>
-                <div class="team-member" style="text-align:center;">
-                    <div style="width:140px; height:140px; border-radius:50%; background: #2d3b4f; margin:0 auto 1rem; border:3px solid var(--primary-blue); display:flex; align-items:center; justify-content:center;"><i class="fas fa-user-astronaut fa-4x" style="color: var(--primary-blue);"></i></div>
+                <div class="team-member">
+                    <div class="avatar-icon"><i class="fas fa-user-astronaut fa-4x" style="color: white;"></i></div>
                     <h4>Maria Garcia</h4>
                     <p>CTO, ICRA Best Paper</p>
                 </div>
-                <div class="team-member" style="text-align:center;">
-                    <div style="width:140px; height:140px; border-radius:50%; background: #2d3b4f; margin:0 auto 1rem; border:3px solid var(--primary-blue); display:flex; align-items:center; justify-content:center;"><i class="fas fa-microchip fa-4x" style="color: var(--primary-blue);"></i></div>
+                <div class="team-member">
+                    <div class="avatar-icon"><i class="fas fa-microchip fa-4x" style="color: white;"></i></div>
                     <h4>James Wu</h4>
                     <p>Head of Engineering, ex‑Tesla</p>
                 </div>
@@ -189,33 +318,59 @@
 
     <section>
         <div class="container">
-            <div class="contact-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; background:var(--bg-card); backdrop-filter:blur(10px); border-radius:40px; padding:3rem;">
+            <div class="contact-grid">
                 <div class="contact-info">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Get in touch</h3>
                     <p><i class="fas fa-envelope"></i> <a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a></p>
                     <p><i class="fas fa-headset"></i> <a href="mailto:support@torquepilot.xyz">support@torquepilot.xyz</a></p>
-                    <div class="work-hours"><p><i class="far fa-clock"></i> Mon–Fri, 9:00–18:00 PT</p></div>
+                    <div class="work-hours">
+                        <p><i class="far fa-clock"></i> Mon–Fri, 9:00–18:00 PT</p>
+                    </div>
                 </div>
-                <div class="contact-form">
-                    <form action="#"><input type="text" placeholder="Name"><input type="email" placeholder="Email"><textarea rows="4" placeholder="Message"></textarea><button type="submit">Send</button></form>
+                <div class="contact-form" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <p style="margin-bottom: 1rem;">Have a question or want to learn more?</p>
+                    <a href="contact.html" class="btn-primary" style="text-align: center;">Send us a message →</a>
                 </div>
             </div>
         </div>
     </section>
 
     <footer class="footer">
-        <div class="container"><p>© 2026 torquepilot, Inc. Palo Alto, CA.</p><p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p></div>
+        <div class="container">
+            <p>© 2026 torquepilot, Inc. Palo Alto, CA.</p>
+            <p><a href="mailto:hello@torquepilot.xyz">hello@torquepilot.xyz</a> | Hours: 9am–6pm PT</p>
+        </div>
     </footer>
 
-    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js" } }</script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+            }
+        }
+    </script>
     <script type="module" src="three-common.js"></script>
     <script>
         function animateNumber(id, start, end, suffix) {
             let current = start;
             const step = Math.ceil((end - start) / 60);
-            const timer = setInterval(() => { current += step; if (current >= end) { document.getElementById(id).innerText = end.toLocaleString() + suffix; clearInterval(timer); } else { document.getElementById(id).innerText = current.toLocaleString() + suffix; } }, 16);
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= end) {
+                    document.getElementById(id).innerText = end.toLocaleString() + (suffix || '');
+                    clearInterval(timer);
+                } else {
+                    document.getElementById(id).innerText = current.toLocaleString() + (suffix || '');
+                }
+            }, 16);
         }
-        window.onload = () => { animateNumber('counter1', 1800000, 2400000, ' hrs'); animateNumber('counter2', 15000000000, 18200000000, ''); };
-        document.querySelector('.mobile-toggle')?.addEventListener('click', () => alert('Mobile menu placeholder'));
+        window.onload = () => {
+            animateNumber('counter1', 1800000, 2400000, ' hrs');
+            animateNumber('counter2', 15000000000, 18200000000, '');
+        };
+        document.querySelector('.mobile-toggle')?.addEventListener('click', () => {
+            alert('Mobile menu - you can implement a drawer menu here.');
+        });
     </script>
 </body>
 </html>
